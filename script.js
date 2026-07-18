@@ -209,6 +209,42 @@ const initActiveNavLink = () => {
 };
 
 /* ==========================================================================
+   WHATSAPP SMART ORDERING
+   ========================================================================== */
+const WHATSAPP_NUMBER = '923283470000';
+
+const buildWhatsAppOrderUrl = (product) => {
+  const message = [
+    "Hi MDEE'S!",
+    '',
+    "I'd like to order:",
+    '',
+    `• ${product}`,
+    '',
+    'Please let me know the available sizes, prices and estimated delivery time.',
+    '',
+    'Thank you!',
+  ].join('\n');
+
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+};
+
+// Single delegated listener: works for every current and future
+// [data-product] ordering button with no additional JS required.
+const initWhatsAppOrdering = () => {
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[data-product]');
+    if (!trigger) return;
+
+    const product = trigger.getAttribute('data-product').trim();
+    if (!product) return;
+
+    event.preventDefault();
+    window.open(buildWhatsAppOrderUrl(product), '_blank', 'noopener');
+  });
+};
+
+/* ==========================================================================
    INIT
    ========================================================================== */
 onReady(() => {
@@ -218,4 +254,5 @@ onReady(() => {
   initMobileMenu();
   initActiveNavLink();
   initFooterYear();
+  initWhatsAppOrdering();
 });
