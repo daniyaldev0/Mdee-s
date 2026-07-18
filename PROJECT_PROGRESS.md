@@ -8,13 +8,13 @@ Version: 2.0
 
 ## Current Version
 
-**v1.3 — Final Production Polish**
+**v1.4 — Brand Refresh: Logo Integration & Visual Refinement**
 
 Status: ✅ Complete
 
 Project Status: **Production Ready**
 
-Overall Progress: 100%
+Overall Progress: 100% (of current scope — see Known Follow-ups for stubbed sections)
 
 ---
 
@@ -25,7 +25,7 @@ Overall Progress: 100%
 - ✅ v0.2 Featured Categories
 - ✅ v0.3 Deals & Combos
 - ⏭️ v0.4 Why Choose Us (Merged into About)
-- ✅ v0.5 About
+- ⚠️ v0.5 About (previously marked complete, but the section is an empty stub in the actual codebase — see Known Follow-ups)
 - ⏭️ v0.6 Gallery (Skipped)
 - ⏭️ v0.7 Testimonials (Skipped)
 - ⏭️ v0.8 FAQ (Skipped)
@@ -35,6 +35,7 @@ Overall Progress: 100%
 - ✅ v1.1B Production Assets
 - ✅ v1.2 Mobile Optimization
 - ✅ v1.3 Final Production Polish
+- ✅ v1.4 Brand Refresh: Logo Integration & Visual Refinement
 
 ---
 
@@ -124,6 +125,19 @@ Overall Progress: 100%
 - Verified: no duplicate IDs, single H1, no console errors, no unused Deal/Category/Why-Us component variants, no horizontal scroll introduced
 - No sections added, no branding/business info changed, no existing components replaced — polish only, per the v1.3 brief
 
+### ✅ v1.4 — Brand Refresh: Logo Integration & Visual Refinement
+- Added the real MDEE'S logo (`assets/logo.png`) as a navbar + wordmark lockup (`.navbar__logo-mark`), reusing `--radius-full`/`--shadow-sm` tokens, with a matching subtle hover scale
+- Added the same lockup treatment to the footer logo (`.footer__logo-mark`), tuned for the dark surface using the existing `rgba(255,255,255,…)` values already present in the footer
+- Integrated the logo into the hero as a circular "seal" badge (`.hero__logo-badge`) over the pizza visual, reusing the existing `.floating` keyframe and the codebase's established inline `animation-delay` convention — gives the hero a real brand mark, which it previously lacked
+- Source logo file has an opaque decorative background (not a transparent isolated mark) — handled with a CSS circle-crop (`object-fit: cover` + full radius) everywhere it's used so it reads as an intentional badge rather than a flat sticker. **Recommend a transparent-background export for a cleaner result if one becomes available.**
+- Reduced hero top padding (`--space-8` → `--space-7`) to tighten dead space above the fold, per the brief
+- Added a 3px primary-color top accent to the contact map frame for a more premium feel, per the "increase visual importance of the map" brief item
+- Corrected the JSON-LD `Organization.logo` field to point at the real logo asset instead of the favicon placeholder
+- Added responsive scaling for the new logo marks/badge across all existing breakpoints (1024/768/480/375px)
+- **Did not touch the About section refinement item from the brief** — `<section id="about"></section>` is an empty stub in the actual codebase (despite the roadmap previously marking v0.5 About as complete), so there was no existing content to refine. Flagged rather than invented.
+- No new sections added, no business info changed, no layouts replaced, no typography families changed — refinement + logo integration only, per the v1.4 brief
+- `script.js` unchanged — nothing added required new interactivity
+
 ---
 
 ## Current Task
@@ -141,6 +155,8 @@ None — project is feature-complete for this scope and marked **Production Read
 - Replace placeholder canonical/OG/Twitter/JSON-LD/robots.txt/sitemap.xml domain (`https://mdees.pk/`) with the real production URL once live.
 - Update `sitemap.xml` `<lastmod>` value at each future content update.
 - **Flagged, not fixed (out of v1.3 scope — "no new sections"):** the nav "Menu" link (`#signature-menu`), nav "Gallery" link (`#gallery`), and footer "About" link (`#about`) all point to empty placeholder `<section>` anchors with no content. This isn't a broken link technically (it resolves), but it is a dead scroll target for the user. Fixing it requires either building those sections or repointing the nav to existing content (e.g. "Menu" → `#categories`) — a product decision, not a polish fix, so left untouched pending direction.
+- **Confirmed during v1.4:** the About section specifically (`#about`) is fully empty in the live codebase, contradicting the roadmap's earlier "✅ v0.5 About — Brand story, About section, Trust highlights..." entry. That work does not exist in `index.html`. Needs either real brand-story content from the client or explicit direction before it can be built.
+- The uploaded `mdees.PNG` logo has an opaque decorative background rather than a transparent, isolated mark. It's usable via CSS circle-cropping (now applied in nav/hero/footer), but a clean transparent-background export (PNG or SVG) would render better at small sizes if one becomes available.
 
 ---
 

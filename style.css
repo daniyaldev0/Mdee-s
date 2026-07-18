@@ -2,9 +2,13 @@
    1. VARIABLES
    ========================================================================== */
 :root {
-  /* Colors */
-  --color-primary: #F58220;
-  --color-secondary: #FFC72C;
+  /* Colors — MDEE'S Brand Refresh (Phase 1): blue + warm yellow from the
+     new logo, with the former primary orange retained as a minimal accent */
+  --color-primary: #0072BC;
+  --color-primary-rgb: 0, 114, 188;
+  --color-secondary: #FBB800;
+  --color-secondary-rgb: 251, 184, 0;
+  --color-accent: #F58220;
   --color-dark: #1A1A1A;
   --color-bg: #FFFFFF;
   --color-surface: #F8F9FA;
@@ -262,10 +266,10 @@ label {
 
 .btn-outline {
   background-color: transparent;
-  border: 1.5px solid var(--color-dark);
-  color: var(--color-dark);
+  border: 1.5px solid var(--color-primary);
+  color: var(--color-primary);
 }
-.btn-outline:hover { background-color: var(--color-dark); color: #fff; }
+.btn-outline:hover { background-color: var(--color-primary); color: #fff; }
 
 .btn-ghost {
   background-color: transparent;
@@ -359,7 +363,7 @@ label {
   text-transform: uppercase;
 }
 
-.badge-hot { background-color: var(--color-primary); color: #fff; }
+.badge-hot { background-color: var(--color-accent); color: #fff; }
 .badge-bestseller { background-color: var(--color-secondary); color: var(--color-dark); }
 .badge-limited { background-color: var(--color-text); color: #fff; }
 
@@ -426,6 +430,9 @@ label {
 }
 
 .navbar__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 1.5rem;
@@ -434,6 +441,17 @@ label {
   z-index: 1;
 }
 .navbar__logo span { color: var(--color-primary); }
+
+.navbar__logo-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+.navbar__logo:hover .navbar__logo-mark { transform: scale(1.06); }
 
 .navbar__links {
   display: flex;
@@ -514,11 +532,11 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding-block-start: var(--space-8);
+  padding-block-start: var(--space-7);
   padding-block-end: var(--space-6);
   background:
-    radial-gradient(ellipse 60% 50% at 85% 15%, rgba(245, 130, 32, 0.10), transparent 70%),
-    radial-gradient(ellipse 40% 40% at 10% 90%, rgba(255, 199, 44, 0.10), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 85% 15%, rgba(var(--color-primary-rgb), 0.10), transparent 70%),
+    radial-gradient(ellipse 40% 40% at 10% 90%, rgba(var(--color-secondary-rgb), 0.10), transparent 70%),
     var(--color-bg);
 }
 
@@ -637,6 +655,18 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
 .float-card--fast { inset-block-end: 14%; inset-inline-start: -8%; }
 .float-card--late { inset-block-end: 2%; inset-inline-end: -2%; }
 
+.hero__logo-badge {
+  position: absolute;
+  inset-block-end: 4%;
+  inset-inline-end: 6%;
+  width: 112px;
+  height: 112px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  box-shadow: 0 0 0 6px var(--color-bg), var(--shadow-lg);
+  z-index: 1;
+}
+
 .hero__scroll-cue {
   position: absolute;
   inset-block-end: var(--space-4);
@@ -709,7 +739,7 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
 }
 
 .category-card__media {
-  background: linear-gradient(135deg, rgba(245, 130, 32, 0.12), rgba(255, 199, 44, 0.18));
+  background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.12), rgba(var(--color-secondary-rgb), 0.18));
 }
 
 .category-card__body {
@@ -782,7 +812,7 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
 .deal-card__media {
   position: relative;
   aspect-ratio: 4 / 3;
-  background: linear-gradient(135deg, rgba(245, 130, 32, 0.14), rgba(255, 199, 44, 0.20));
+  background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.14), rgba(var(--color-secondary-rgb), 0.20));
 }
 
 .deal-card__badge {
@@ -870,7 +900,7 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
   height: 56px;
   margin-block-end: var(--space-3);
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, rgba(245, 130, 32, 0.12), rgba(255, 199, 44, 0.18));
+  background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.12), rgba(var(--color-secondary-rgb), 0.18));
   color: var(--color-primary);
   transition: transform var(--transition-base), background-color var(--transition-base);
 }
@@ -882,7 +912,7 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
 
 .why-card:hover .why-card__icon {
   transform: scale(1.08);
-  background: linear-gradient(135deg, rgba(245, 130, 32, 0.20), rgba(255, 199, 44, 0.28));
+  background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.20), rgba(var(--color-secondary-rgb), 0.28));
 }
 
 .why-card__title {
@@ -943,7 +973,7 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
   width: 44px;
   height: 44px;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, rgba(245, 130, 32, 0.12), rgba(255, 199, 44, 0.18));
+  background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.12), rgba(var(--color-secondary-rgb), 0.18));
   color: var(--color-primary);
 }
 
@@ -996,6 +1026,7 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
   min-height: 460px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-primary);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
 }
@@ -1039,7 +1070,9 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
 .footer__col { min-width: 0; }
 
 .footer__logo {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
   margin-block-end: var(--space-2);
   font-family: var(--font-heading);
   font-weight: 800;
@@ -1048,6 +1081,15 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
   color: #fff;
 }
 .footer__logo span { color: var(--color-primary); }
+
+.footer__logo-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
 
 .footer__tagline {
   margin-block-end: var(--space-2);
@@ -1216,6 +1258,8 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
   .category-grid { grid-template-columns: repeat(2, 1fr); }
   .why-grid { grid-template-columns: repeat(2, 1fr); }
 
+  .hero__logo-badge { width: 88px; height: 88px; box-shadow: 0 0 0 4px var(--color-bg), var(--shadow-lg); }
+
   .contact-grid { grid-template-columns: 1fr; }
   .contact-map__frame { min-height: 360px; }
   .contact-map__iframe { min-height: 360px; }
@@ -1257,6 +1301,7 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
   .hero__actions { justify-content: center; }
   .hero__visual { order: -1; min-height: 320px; margin-block-end: var(--space-3); }
   .hero__scroll-cue { display: none; }
+  .hero__logo-badge { width: 72px; height: 72px; inset-inline-end: 2%; box-shadow: 0 0 0 4px var(--color-bg), var(--shadow-md); }
 
   .category-grid { grid-template-columns: 1fr; }
   .deals-grid { grid-template-columns: 1fr; }
@@ -1293,6 +1338,7 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
 @media (max-width: 480px) {
   .hero { padding-block-start: var(--space-6); }
   .hero__visual { min-height: 260px; margin-block-end: var(--space-2); }
+  .hero__logo-badge { width: 56px; height: 56px; box-shadow: 0 0 0 3px var(--color-bg), var(--shadow-md); }
 
   .float-card { font-size: 0.6875rem; padding: 6px var(--space-1); }
   .float-card strong { font-size: 0.6875rem; }
@@ -1313,6 +1359,7 @@ body.no-scroll { overflow: hidden; height: 100%; overscroll-behavior: contain; }
 
 @media (max-width: 375px) {
   .navbar__logo { font-size: 1.25rem; }
+  .navbar__logo-mark { width: 34px; height: 34px; }
   .btn-lg { padding: var(--space-2) var(--space-4); }
   .deal-card__price { font-size: 1.125rem; }
 }
