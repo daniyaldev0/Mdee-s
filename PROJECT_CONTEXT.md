@@ -120,9 +120,13 @@ Completed
 
 ✓ Production Optimization (v2.0) — see summary below
 
+✓ Hero Redesign (v2.1) — see summary below
+
+✓ Hero Layout Fix (v2.2) — see summary below
+
 Current Version
 
-v2.0 — Production Optimization (complete)
+v2.2 — Hero Layout Fix (complete)
 
 Next Task
 
@@ -203,7 +207,7 @@ Avoid creating additional HTML pages unless explicitly requested.
 ## Current Features
 
 - Responsive navigation
-- Hero section
+- Hero section — layered multi-product photo composition, WhatsApp-first CTA, trust-indicator bar
 - Featured categories
 - Interactive menu (category grid → category detail, "Add to Cart" buttons)
 - About section
@@ -250,3 +254,50 @@ Upcoming
 
 **Files modified:** index.html, style.css, script.js
 **Files added:** robots.txt, sitemap.xml, site.webmanifest
+
+---
+
+## v2.1 — Hero Redesign Summary
+
+**Scope:** hero section only (`#hero`), per hero.md. No other sections, no JS, touched.
+
+**Content**
+- New headline: "Lahore's Favorite Late-Night Pizza." (was "Handmade Dough, Bold Flavor, Made To Order.")
+- New supporting paragraph — trimmed to lead with the product range and close with the 3:30 PM–3:30 AM hours
+- Primary CTA changed from "Order Now" (→ `#contact`) to "Order on WhatsApp" (→ `https://wa.me/923283470000` directly, matching the WhatsApp number already used site-wide), with an inline WhatsApp glyph reusing the existing icon system (24x24 viewBox, stroke-width 1.75, currentColor)
+- Secondary CTA renamed "Explore Menu" → "Browse Menu" (target unchanged, `#menu`)
+- Added a new trust-indicator bar below the CTAs: Fresh Ingredients, Open 3:30 PM – 3:30 AM, Foodpanda Available, Fast Delivery — each with a small stroke icon (clock and lightning-bolt icons reused verbatim from the Contact and Why-Choose-Us sections for visual consistency; leaf and delivery-bag icons are new but match the same icon spec)
+
+**Visual**
+- Replaced the single CSS-drawn pizza (`.pizza`/`.pizza__crust`/`.pizza__cheese`/`.pizza__pepperoni`) with a real, layered product composition: a large central photo (`assets/categories/pizza.jpg`) plus four smaller orbiting photos (burgers, shawarma, wings, pasta) — reuses the category images already live on the site rather than introducing new assets
+- Removed the three floating info chips (Fresh Ingredients / Fast Delivery / Open Till 3:30 AM) from the visual since that information now lives in the new trust bar; kept the ★ 4.8 rating chip as the one non-duplicated accent on the visual
+- Logo badge position/behavior unchanged (still supports the composition, doesn't dominate it)
+- All composition pieces use the existing `.floating` utility and `--float-y` custom property with staggered `animation-delay`s, consistent with the site's existing motion language — no new animations introduced
+
+**Performance**
+- Main hero photo has `fetchpriority="high"` + a `<link rel="preload" as="image">` in `<head>`, since it's now the page's largest above-the-fold image and likely LCP element
+- All hero images ship explicit `width`/`height` to prevent layout shift; none are `loading="lazy"` since the whole hero is above the fold
+
+**Layout**
+- Desktop: unchanged two-column grid (text left, visual right)
+- Mobile: content now renders before the visual (headline → text → CTAs → trust bar → image) — previously the visual was reordered to appear first; that `order: -1` rule was removed to match the new spec
+
+**Files modified:** index.html, style.css
+**Files unchanged:** script.js (hero has no JS dependency), robots.txt, sitemap.xml, site.webmanifest
+
+---
+
+## v2.2 — Hero Layout Fix Summary
+
+**Bug fixed:** the logo badge was absolutely positioned inside `.hero__visual`, overlapping the food photo composition at several breakpoints.
+
+**Fix:** moved the logo out of the visual/food column entirely and into `.hero__content` (the text column), as the first element, above the "Say Yes to Pizza" tagline badge. Since it now lives in a different grid column than the food imagery — in normal document flow, not absolutely positioned — overlap with the hero photos is structurally impossible at any breakpoint, not just visually avoided.
+
+- Logo now sizes itself with `clamp(56px, 5vw, 76px)`, so it scales fluidly across desktop/laptop/tablet without needing separate pixel overrides at each breakpoint (removed three now-redundant media-query rules as a result)
+- `margin-block-end` gives it consistent spacing before the tagline badge/headline; on mobile it's centered via `margin-inline: auto`, matching the existing centering pattern already used for `.hero__text`
+- Animation changed from the continuous `.floating` loop to the same one-time `.fade-up` entrance used by the tagline, headline, paragraph, CTAs, and trust bar — it now enters as part of the same content stagger rather than bobbing independently next to the headline
+- `z-index` on the logo rule was removed entirely — no longer needed, since it's no longer stacked against other absolutely positioned elements
+- Hero photo composition (plate + 4 orbiting photos + rating chip) and all its `.floating` animations are untouched
+
+**Files modified:** index.html, style.css
+**Files unchanged:** script.js, robots.txt, sitemap.xml, site.webmanifest

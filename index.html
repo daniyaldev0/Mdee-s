@@ -37,6 +37,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
+  <link rel="preload" as="image" href="assets/categories/pizza.jpg" fetchpriority="high">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -168,56 +169,109 @@
 
       <div class="container hero__inner">
         <div class="hero__content">
-          <span class="hero__badge fade-up">Say Yes to Pizza</span>
-
-          <h1 class="hero__title">
-            <span class="fade-up" style="animation-delay:80ms">Handmade Dough,</span>
-            <span class="fade-up hero__title-accent" style="animation-delay:180ms">Bold Flavor,</span>
-            <span class="fade-up" style="animation-delay:280ms">Made To Order.</span>
-          </h1>
-
-          <p class="hero__text fade-up" style="animation-delay:380ms">
-      Freshly prepared pizzas, burgers, shawarmas, and family favorites,crafted with quality ingredients and served with speed. Whether you're dining in or ordering from home, MDEE'S is ready to deliver great taste every day from 3:30 PM until 3:30 AM.
-          </p>
-
-          <div class="hero__actions cluster fade-up" style="animation-delay:480ms">
-            <a href="#contact" class="btn btn-primary btn-lg">Order Now</a>
-            <a href="#menu" class="btn btn-outline btn-lg">Explore Menu</a>
-          </div>
-        </div>
-
-        <div class="hero__visual fade-in" style="animation-delay:300ms">
-          <div class="pizza floating">
-            <div class="pizza__crust"></div>
-            <div class="pizza__cheese"></div>
-            <div class="pizza__pepperoni" style="top:22%; left:28%;"></div>
-            <div class="pizza__pepperoni" style="top:34%; left:58%;"></div>
-            <div class="pizza__pepperoni" style="top:52%; left:22%;"></div>
-            <div class="pizza__pepperoni" style="top:60%; left:48%;"></div>
-            <div class="pizza__pepperoni" style="top:40%; left:38%;"></div>
-            <div class="pizza__pepperoni" style="top:68%; left:66%;"></div>
-          </div>
-
-          <div class="float-card float-card--rating floating" style="animation-delay:200ms">
-            <strong>★★★★★</strong>
-            <span>4.8 Rating</span>
-          </div>
-
-          <div class="float-card float-card--fresh floating" style="animation-delay:600ms">
-            <strong>Fresh Ingredients</strong>
-          </div>
-
-          <div class="float-card float-card--fast floating" style="animation-delay:900ms">
-            <strong>Fast Delivery</strong>
-          </div>
           <img
             src="assets/logo.png"
             alt="MDEE'S logo"
-            width="112"
-            height="112"
-            class="hero__logo-badge floating"
-            style="animation-delay:1500ms"
+            width="72"
+            height="72"
+            class="hero__logo-badge fade-up"
           >
+
+          <span class="hero__badge fade-up">Say Yes to Pizza</span>
+
+          <h1 class="hero__title">
+            <span class="fade-up" style="animation-delay:80ms">Lahore's Favorite</span>
+            <span class="fade-up hero__title-accent" style="animation-delay:180ms">Late-Night Pizza.</span>
+          </h1>
+
+          <p class="hero__text fade-up" style="animation-delay:280ms">
+            Handmade pizzas, juicy burgers, and loaded shawarmas — made fresh to order
+            with quality ingredients and served fast, every day from 3:30 PM until 3:30 AM.
+          </p>
+
+          <div class="hero__actions cluster fade-up" style="animation-delay:380ms">
+            <a href="https://wa.me/923283470000" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 5 5l1.5-2 4 1.5v3c0 1-.9 1.8-1.9 1.7C11 17.8 6.2 13 5.3 6.9c-.15-1 .65-1.9 1.7-1.9Z"/>
+              </svg>
+              Order on WhatsApp
+            </a>
+            <a href="#menu" class="btn btn-outline btn-lg">Browse Menu</a>
+          </div>
+
+          <ul class="hero__trust fade-up" style="animation-delay:480ms">
+            <li class="hero__trust-item">
+              <span class="hero__trust-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 19c8 0 13-5 13-13 0-1 0-2-.3-2.7C16.5 3 15 3 14 3 7 3 5 9 5 15v4Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M5 19c0-4 2-7.5 6-10" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Fresh Ingredients
+            </li>
+            <li class="hero__trust-item">
+              <span class="hero__trust-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.75"/>
+                  <path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Open 3:30 PM – 3:30 AM
+            </li>
+            <li class="hero__trust-item">
+              <span class="hero__trust-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.75"/>
+                  <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.75"/>
+                  <circle cx="17.2" cy="6.8" r="1" fill="currentColor"/>
+                </svg>
+              </span>
+              Foodpanda Available
+            </li>
+            <li class="hero__trust-item">
+              <span class="hero__trust-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Fast Delivery
+            </li>
+          </ul>
+        </div>
+
+        <div class="hero__visual fade-in" style="animation-delay:300ms">
+          <div class="hero-plate floating">
+            <img
+              src="assets/categories/pizza.jpg"
+              alt="MDEE'S signature pizza, hand-stretched and fresh from the oven"
+              width="460"
+              height="460"
+              fetchpriority="high"
+              decoding="async"
+              class="hero-plate__img"
+            >
+          </div>
+
+          <div class="hero-orbit hero-orbit--tl floating" style="animation-delay:200ms">
+            <img src="assets/categories/burgers.jpg" alt="MDEE'S Zinger burger stacked with fresh toppings" width="140" height="140" decoding="async">
+          </div>
+
+          <div class="hero-orbit hero-orbit--tr floating" style="animation-delay:650ms">
+            <img src="assets/categories/shawarma.jpg" alt="MDEE'S chicken shawarma wrap" width="140" height="140" decoding="async">
+          </div>
+
+          <div class="hero-orbit hero-orbit--bl floating" style="animation-delay:900ms">
+            <img src="assets/categories/wings.jpg" alt="MDEE'S flaming hot chicken wings" width="140" height="140" decoding="async">
+          </div>
+
+          <div class="hero-orbit hero-orbit--br floating" style="animation-delay:450ms">
+            <img src="assets/categories/pasta.jpg" alt="MDEE'S creamy cheese pasta" width="140" height="140" decoding="async">
+          </div>
+
+          <div class="float-card float-card--rating floating" style="animation-delay:1100ms">
+            <strong>★★★★★</strong>
+            <span>4.8 Rating</span>
+          </div>
         </div>
       </div>
 
@@ -2050,7 +2104,19 @@
       </div>
 
       <div class="footer__bottom">
-        <p class="footer__copyright">&copy; <span id="currentYear">2026</span> MDEE'S. All rights reserved.</p>
+        <div class="footer__legal">
+          <p class="footer__copyright">&copy; <span id="currentYear">2026</span> MDEE'S. All rights reserved.</p>
+          <p class="footer__credit">
+            Designed &amp; Developed by
+            <a
+              href="https://contraxbuilds.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer__credit-link"
+              aria-label="Contrax Builds, website design and development studio (opens in a new tab)"
+            >Contrax Builds</a>
+          </p>
+        </div>
       </div>
     </div>
 
