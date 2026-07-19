@@ -124,9 +124,11 @@ Completed
 
 ✓ Hero Layout Fix (v2.2) — see summary below
 
+✓ Main-Thread Performance Optimization (v2.3) — see summary below
+
 Current Version
 
-v2.2 — Hero Layout Fix (complete)
+v2.3 — Main-Thread Performance Optimization (complete)
 
 Next Task
 
@@ -222,6 +224,7 @@ Avoid creating additional HTML pages unless explicitly requested.
 - Product Quick View (size selection for pizzas, quantity stepper, live subtotal, modal/bottom-sheet panel)
 - Menu search & smart filtering (live filter by name/category/description, highlighted matches, Ctrl+K shortcut, sticky on mobile)
 - robots.txt + sitemap.xml + site.webmanifest for production SEO
+- Main-thread JS optimized: rAF-throttled scroll handling, cached cart DOM references, no forced synchronous reflows (v2.3)
 
 Upcoming
 
@@ -284,6 +287,36 @@ Upcoming
 
 **Files modified:** index.html, style.css
 **Files unchanged:** script.js (hero has no JS dependency), robots.txt, sitemap.xml, site.webmanifest
+
+---
+
+## v2.3 — Main-Thread Performance Optimization Summary
+
+**Scope:** `script.js` only, per errorsdebuging.md. No UI, markup, styling, or functional behavior changed — every optimization is an internal implementation swap that produces identical on-screen results.
+
+**Scroll handling**
+- `throttle` (setTimeout-based) replaced with `rafThrottle` (requestAnimationFrame-based). Scroll listeners (Back to Top visibility, navbar scrolled state) now run at most once per animation frame instead of on a timer cadence decoupled from the render pipeline — cheaper (no timer bookkeeping) and never lands mid-frame.
+- `onScroll()` no longer takes a `limit` argument now that its throttle is frame-based rather than time-based; both call sites updated.
+
+**Forced reflows removed**
+- Three `void el.offsetWidth` reads — used to force a synchronous layout flush so a CSS transition would restart (cart panel open, Quick View panel open, cart badge bump) — replaced with a new `nextFrame()` helper (double `requestAnimationFrame`). Same visual effect (the transition still restarts correctly), without forcing layout work outside the browser's normal rendering schedule.
+
+**Repeated DOM queries eliminated**
+- Added `cartUiEls`, a cached lookup object (mirrors the existing `qvEls` pattern for Quick View) for `#cartBody`, `#cartSummary`, `#cartSubtotal`, `#cartTotal`, `#cartBadge`, `#cartToggle`, `#cartToast`. Previously `renderCart`, `updateCartBadge`, and `showCartToast` — the app's hottest path, firing on every add/remove/quantity change — each ran fresh `querySelector` calls on every call.
+- The cart-item "bump" quantity lookup in `renderCart` is now scoped to the cached `#cartBody` element instead of searching the whole document.
+
+**Repeated `matchMedia` calls eliminated**
+- `prefers-reduced-motion` was being queried with `window.matchMedia(...).matches` in four separate places (Back to Top, Interactive Menu scroll, cart panel open/close, Quick View close) — three of which are user-interaction hot paths. Replaced with a single module-level `prefersReducedMotion` value, read once and kept live via the media query's own `change` event, so it still responds correctly if the user changes the OS setting mid-session.
+
+**Reviewed, no change needed**
+- Event delegation was already used correctly throughout (menu cart actions, WhatsApp ordering, category-link clicks) — one listener per concern, no per-item listeners to consolidate.
+- Resize handling (mobile menu breakpoint check) was already debounced.
+- The Menu Search index is already built once at init, not rebuilt per keystroke; search input is already debounced.
+- `trapFocus`'s per-Tab-press focusable-element query was reviewed as a layout-thrashing candidate but left as-is: caching it would need invalidation logic tied to dynamic panel content (cart rows added/removed, Quick View size buttons re-rendering), and getting that invalidation wrong risks a broken focus trap — an accessibility regression that outweighs the minor gain on an already-small element set.
+- No expensive loops or "initialize on demand" opportunities were found beyond the null-check guards already in place on every `init*` function; all initialized components are needed immediately at page load (cart/Quick View delegation must be live for the first click, deep-linked menu categories must resolve on load).
+
+**Files modified:** script.js
+**Files unchanged:** index.html, style.css, robots.txt, sitemap.xml, site.webmanifest
 
 ---
 

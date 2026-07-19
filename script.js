@@ -17,13 +17,20 @@ const qsa = (selector, scope = document) => Array.from(scope.querySelectorAll(se
 /* ==========================================================================
    PERFORMANCE HELPERS
    ========================================================================== */
-const throttle = (fn, limit = 100) => {
-  let waiting = false;
+// rAF-based throttle for scroll listeners: coalesces any number of scroll
+// events into a single callback right before the next paint, instead of a
+// setTimeout-based cadence that runs independently of the render pipeline.
+// Cheaper (no timer bookkeeping) and never schedules a callback that lands
+// mid-frame.
+const rafThrottle = (fn) => {
+  let ticking = false;
   return (...args) => {
-    if (waiting) return;
-    fn(...args);
-    waiting = true;
-    setTimeout(() => { waiting = false; }, limit);
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      fn(...args);
+      ticking = false;
+    });
   };
 };
 
@@ -34,6 +41,16 @@ const debounce = (fn, delay = 200) => {
     timer = setTimeout(() => fn(...args), delay);
   };
 };
+
+// Runs `fn` two animation frames from now. Used in place of the
+// `void el.offsetWidth` "read a layout property to force a reflow" trick
+// that was being used to restart CSS transitions (e.g. removing `hidden`
+// then immediately adding the class that animates in) — that pattern forces
+// a synchronous style/layout flush on the main thread. Waiting a real frame
+// achieves the same "let the browser commit the first state before applying
+// the second" effect without forcing layout work outside the normal
+// rendering pipeline.
+const nextFrame = (fn) => requestAnimationFrame(() => requestAnimationFrame(fn));
 
 /* ==========================================================================
    FOCUS TRAP (shared by the cart panel and Quick View modal)
@@ -67,9 +84,22 @@ const trapFocus = (container, event) => {
 /* ==========================================================================
    SCROLL HELPER
    ========================================================================== */
-const onScroll = (fn, limit = 100) => {
-  window.addEventListener('scroll', throttle(fn, limit), { passive: true });
+const onScroll = (fn) => {
+  window.addEventListener('scroll', rafThrottle(fn), { passive: true });
 };
+
+/* ==========================================================================
+   REDUCED MOTION (cached)
+   ========================================================================== */
+// Read once and kept in sync via the media query's own change event, instead
+// of calling matchMedia().matches again inside cart/Quick View open+close
+// handlers — those run on every user interaction, so re-querying there was
+// unnecessary work on an otherwise hot path.
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+let prefersReducedMotion = reducedMotionQuery.matches;
+reducedMotionQuery.addEventListener('change', (event) => {
+  prefersReducedMotion = event.matches;
+});
 
 /* ==========================================================================
    INTERSECTION OBSERVER / ANIMATION INITIALIZER
@@ -105,14 +135,13 @@ const initBackToTop = () => {
   if (!button) return;
 
   const SCROLL_THRESHOLD = 480;
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const updateVisibility = () => {
     button.classList.toggle('is-visible', window.scrollY > SCROLL_THRESHOLD);
   };
 
   updateVisibility();
-  onScroll(updateVisibility, 150);
+  onScroll(updateVisibility);
 
   button.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
@@ -142,7 +171,7 @@ const initNavbarScroll = () => {
   };
 
   updateState();
-  onScroll(updateState, 100);
+  onScroll(updateState);
 };
 
 /* ==========================================================================
@@ -250,8 +279,6 @@ const initInteractiveMenu = () => {
   const selectCards = qsa('[data-menu-target]', selectView);
   const categories = qsa('[data-menu-section]', detailView);
   if (!selectCards.length || !categories.length) return;
-
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const scrollToMenuTop = () => {
     const top = menuSection.getBoundingClientRect().top + window.scrollY - 96;
@@ -582,6 +609,23 @@ const removeFromCart = (id) => {
 };
 
 /* ==========================================================================
+   SHOPPING CART — CACHED DOM REFERENCES
+   ========================================================================== */
+// Looked up once (script.js runs with `defer`, so the DOM is already parsed)
+// instead of re-querying the same elements inside renderCart/updateCartBadge/
+// showCartToast — these fire on every add-to-cart, quantity change, removal,
+// and toast, making them the hottest DOM-lookup path in the app.
+const cartUiEls = {
+  body: qs('#cartBody'),
+  summary: qs('#cartSummary'),
+  subtotal: qs('#cartSubtotal'),
+  total: qs('#cartTotal'),
+  badge: qs('#cartBadge'),
+  toggleBtn: qs('#cartToggle'),
+  toast: qs('#cartToast'),
+};
+
+/* ==========================================================================
    SHOPPING CART — RENDERING
    ========================================================================== */
 const renderCartItem = (item) => `
@@ -606,8 +650,7 @@ const renderCartItem = (item) => `
 `;
 
 const renderCart = ({ bumpId } = {}) => {
-  const body = qs('#cartBody');
-  const summary = qs('#cartSummary');
+  const { body, summary, subtotal, total } = cartUiEls;
   if (!body) return;
 
   if (!cartItems.length) {
@@ -626,20 +669,21 @@ const renderCart = ({ bumpId } = {}) => {
 
   if (summary) {
     summary.hidden = false;
-    const total = calculateTotal();
-    qs('#cartSubtotal').textContent = formatPrice(total);
-    qs('#cartTotal').textContent = formatPrice(total);
+    const totalAmount = calculateTotal();
+    if (subtotal) subtotal.textContent = formatPrice(totalAmount);
+    if (total) total.textContent = formatPrice(totalAmount);
   }
 
   if (bumpId) {
-    const qtyEl = qs(`.cart-item[data-cart-id="${bumpId}"] .cart-item__qty`);
+    // Scoped to `body` rather than the whole document, since cart rows only
+    // ever live inside it.
+    const qtyEl = qs(`.cart-item[data-cart-id="${bumpId}"] .cart-item__qty`, body);
     if (qtyEl) qtyEl.classList.add('is-updated');
   }
 };
 
 const updateCartBadge = () => {
-  const badge = qs('#cartBadge');
-  const toggleBtn = qs('#cartToggle');
+  const { badge, toggleBtn } = cartUiEls;
   if (!badge || !toggleBtn) return;
 
   const count = cartItemCount();
@@ -652,8 +696,8 @@ const updateCartBadge = () => {
 
   if (count > 0) {
     badge.classList.remove('is-bumping');
-    void badge.offsetWidth; // restart the animation on every change
-    badge.classList.add('is-bumping');
+    // Restart the bump animation without forcing a synchronous layout read.
+    nextFrame(() => badge.classList.add('is-bumping'));
   }
 };
 
@@ -829,9 +873,10 @@ const openQuickView = (product) => {
   renderQuickView();
 
   overlay.hidden = false;
-  void overlay.offsetWidth;
-  panel.classList.add('is-open');
-  overlay.classList.add('is-visible');
+  nextFrame(() => {
+    panel.classList.add('is-open');
+    overlay.classList.add('is-visible');
+  });
   panel.setAttribute('aria-hidden', 'false');
   document.body.classList.add('no-scroll');
   closeBtn.focus({ preventScroll: true });
@@ -840,8 +885,6 @@ const openQuickView = (product) => {
 const closeQuickView = () => {
   const { overlay, panel } = qvEls;
   if (!overlay || !panel) return;
-
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   panel.classList.remove('is-open');
   overlay.classList.remove('is-visible');
@@ -926,15 +969,17 @@ const initCartPanel = () => {
   const closeBtn = qs('#cartCloseBtn');
   if (!panel || !overlay || !toggleBtn) return;
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isOpen = () => panel.classList.contains('is-open');
 
   const openCart = () => {
     overlay.hidden = false;
-    // Force layout so the opacity transition on the overlay actually runs.
-    void overlay.offsetWidth;
-    panel.classList.add('is-open');
-    overlay.classList.add('is-visible');
+    // Let the browser commit `hidden = false` on its own before applying the
+    // classes that trigger the opacity transition (was previously forced
+    // via a synchronous `offsetWidth` read).
+    nextFrame(() => {
+      panel.classList.add('is-open');
+      overlay.classList.add('is-visible');
+    });
     panel.setAttribute('aria-hidden', 'false');
     toggleBtn.setAttribute('aria-expanded', 'true');
     document.body.classList.add('no-scroll');
@@ -991,7 +1036,7 @@ const initCartPanel = () => {
 let cartToastTimer;
 
 const showCartToast = (message) => {
-  const toast = qs('#cartToast');
+  const { toast } = cartUiEls;
   if (!toast) return;
 
   toast.textContent = message;
