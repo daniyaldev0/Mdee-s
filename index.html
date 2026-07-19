@@ -112,28 +112,45 @@
           MDEE'<span>S</span>
         </a>
 
-        <button
-          type="button"
-          class="navbar__toggle"
-          id="navToggle"
-          aria-label="Open menu"
-          aria-expanded="false"
-          aria-controls="navPanel"
-        >
-          <span class="navbar__toggle-bar"></span>
-          <span class="navbar__toggle-bar"></span>
-          <span class="navbar__toggle-bar"></span>
-        </button>
+        <div class="navbar__end">
+          <button
+            type="button"
+            class="navbar__cart-btn"
+            id="cartToggle"
+            aria-label="Open cart, empty"
+            aria-expanded="false"
+            aria-controls="cartPanel"
+          >
+            <svg class="navbar__cart-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/>
+              <path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/>
+            </svg>
+            <span class="navbar__cart-badge" id="cartBadge" hidden>0</span>
+          </button>
 
-        <div class="navbar__panel" id="navPanel">
-          <ul class="navbar__links" id="navLinks">
-            <li><a href="#hero" class="navbar__link is-active" data-nav-link>Home</a></li>
-            <li><a href="#categories" class="navbar__link" data-nav-link>Menu</a></li>
-            <li><a href="#deals" class="navbar__link" data-nav-link>Deals</a></li>
-            <li><a href="#contact" class="navbar__link" data-nav-link>Contact</a></li>
-          </ul>
+          <button
+            type="button"
+            class="navbar__toggle"
+            id="navToggle"
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="navPanel"
+          >
+            <span class="navbar__toggle-bar"></span>
+            <span class="navbar__toggle-bar"></span>
+            <span class="navbar__toggle-bar"></span>
+          </button>
 
-          <a href="#contact" class="btn btn-primary navbar__cta">Order Now</a>
+          <div class="navbar__panel" id="navPanel">
+            <ul class="navbar__links" id="navLinks">
+              <li><a href="#hero" class="navbar__link is-active" data-nav-link>Home</a></li>
+              <li><a href="#menu" class="navbar__link" data-nav-link>Menu</a></li>
+              <li><a href="#deals" class="navbar__link" data-nav-link>Deals</a></li>
+              <li><a href="#contact" class="navbar__link" data-nav-link>Contact</a></li>
+            </ul>
+
+            <a href="#contact" class="btn btn-primary navbar__cta">Order Now</a>
+          </div>
         </div>
       </div>
     </nav>
@@ -165,7 +182,7 @@
 
           <div class="hero__actions cluster fade-up" style="animation-delay:480ms">
             <a href="#contact" class="btn btn-primary btn-lg">Order Now</a>
-            <a href="#deals" class="btn btn-outline btn-lg">Explore Menu</a>
+            <a href="#menu" class="btn btn-outline btn-lg">Explore Menu</a>
           </div>
         </div>
 
@@ -238,7 +255,7 @@
             <div class="card__body category-card__body">
               <h3 class="card__title">Pizza</h3>
               <p class="card__meta category-card__desc">Hand-stretched dough, real cheese, and bold toppings in every bite.</p>
-              <a href="#deals" class="category-card__cta">
+              <a href="#menu-regular-pizza" class="category-card__cta">
                 View Items
                 <span class="category-card__arrow" aria-hidden="true">→</span>
               </a>
@@ -257,7 +274,7 @@
             <div class="card__body category-card__body">
               <h3 class="card__title">Burgers</h3>
               <p class="card__meta category-card__desc">Juicy, flame-grilled patties stacked high with fresh flavor.</p>
-              <a href="#deals" class="category-card__cta">
+              <a href="#menu-burgers" class="category-card__cta">
                 View Items
                 <span class="category-card__arrow" aria-hidden="true">→</span>
               </a>
@@ -276,7 +293,7 @@
             <div class="card__body category-card__body">
               <h3 class="card__title">Shawarma</h3>
               <p class="card__meta category-card__desc">Tender marinated chicken, wrapped tight, packed with flavor.</p>
-              <a href="#deals" class="category-card__cta">
+              <a href="#menu-shawarma" class="category-card__cta">
                 View Items
                 <span class="category-card__arrow" aria-hidden="true">→</span>
               </a>
@@ -295,7 +312,7 @@
             <div class="card__body category-card__body">
               <h3 class="card__title">Flaming Wings</h3>
               <p class="card__meta category-card__desc">Crispy, saucy, and fired up — the ultimate finger food.</p>
-              <a href="#deals" class="category-card__cta">
+              <a href="#menu-oven-baked" class="category-card__cta">
                 View Items
                 <span class="category-card__arrow" aria-hidden="true">→</span>
               </a>
@@ -314,7 +331,7 @@
             <div class="card__body category-card__body">
               <h3 class="card__title">Pasta</h3>
               <p class="card__meta category-card__desc">Creamy, cheesy pasta made fresh for every craving.</p>
-              <a href="#deals" class="category-card__cta">
+              <a href="#menu-pasta" class="category-card__cta">
                 View Items
                 <span class="category-card__arrow" aria-hidden="true">→</span>
               </a>
@@ -333,7 +350,7 @@
             <div class="card__body category-card__body">
               <h3 class="card__title">Family Deals</h3>
               <p class="card__meta category-card__desc">Generous combos built for sharing with the people you love.</p>
-              <a href="#deals" class="category-card__cta">
+              <a href="#menu-deals" class="category-card__cta">
                 View Items
                 <span class="category-card__arrow" aria-hidden="true">→</span>
               </a>
@@ -341,6 +358,1292 @@
           </article>
 
         </div>
+      </div>
+    </section>
+    <section id="menu" class="section menu">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-header__label">Full Menu</span>
+          <h2 class="section-header__title">Everything MDEE'S Makes, In One Place</h2>
+          <p class="section-header__text">
+            Every pizza, burger, wrap and deal we serve — browse by category and
+            order straight to WhatsApp.
+          </p>
+        </div>
+
+        <div class="menu-select" id="menuSelect">
+          <div class="menu-select__grid">
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:0ms"
+            data-menu-target="menu-regular-pizza"
+          >
+            <span class="menu-select-card__count">3 Items</span>
+            <h3 class="card__title menu-select-card__title">Regular Pizza</h3>
+            <p class="card__meta menu-select-card__desc">Classic hand-stretched pizzas loaded with bold, everyday flavor.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:60ms"
+            data-menu-target="menu-signature-pizza"
+          >
+            <span class="menu-select-card__count">4 Items</span>
+            <h3 class="card__title menu-select-card__title">Signature Pizza</h3>
+            <p class="card__meta menu-select-card__desc">MDEE'S originals — bolder toppings, richer sauces, made to stand out.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:120ms"
+            data-menu-target="menu-stuffed-pizza"
+          >
+            <span class="menu-select-card__count">3 Items</span>
+            <h3 class="card__title menu-select-card__title">Stuffed Pizza</h3>
+            <p class="card__meta menu-select-card__desc">Cheese-packed crusts stuffed edge to edge for extra indulgence.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:180ms"
+            data-menu-target="menu-burgers"
+          >
+            <span class="menu-select-card__count">6 Items</span>
+            <h3 class="card__title menu-select-card__title">Burgers</h3>
+            <p class="card__meta menu-select-card__desc">Flame-grilled patties, stacked high and served fast.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:240ms"
+            data-menu-target="menu-shawarma"
+          >
+            <span class="menu-select-card__count">4 Items</span>
+            <h3 class="card__title menu-select-card__title">Shawarma</h3>
+            <p class="card__meta menu-select-card__desc">Tender marinated chicken, wrapped tight and packed with flavor.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:300ms"
+            data-menu-target="menu-sandwiches"
+          >
+            <span class="menu-select-card__count">3 Items</span>
+            <h3 class="card__title menu-select-card__title">Sandwiches</h3>
+            <p class="card__meta menu-select-card__desc">Quick, hand-held bites loaded with cheese and chicken.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:360ms"
+            data-menu-target="menu-pasta"
+          >
+            <span class="menu-select-card__count">4 Items</span>
+            <h3 class="card__title menu-select-card__title">Pasta</h3>
+            <p class="card__meta menu-select-card__desc">Creamy, cheesy pasta made fresh for every craving.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:420ms"
+            data-menu-target="menu-fried-chicken"
+          >
+            <span class="menu-select-card__count">3 Items</span>
+            <h3 class="card__title menu-select-card__title">Fried Chicken</h3>
+            <p class="card__meta menu-select-card__desc">Crispy, golden, and made to order.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:480ms"
+            data-menu-target="menu-fries"
+          >
+            <span class="menu-select-card__count">4 Items</span>
+            <h3 class="card__title menu-select-card__title">Fries</h3>
+            <p class="card__meta menu-select-card__desc">Crispy sides to round out any order.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:540ms"
+            data-menu-target="menu-oven-baked"
+          >
+            <span class="menu-select-card__count">2 Items</span>
+            <h3 class="card__title menu-select-card__title">Oven Baked</h3>
+            <p class="card__meta menu-select-card__desc">Crispy, saucy, and fired up — the ultimate finger food.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:600ms"
+            data-menu-target="menu-cold-drinks"
+          >
+            <span class="menu-select-card__count">1 Item</span>
+            <h3 class="card__title menu-select-card__title">Cold Drinks</h3>
+            <p class="card__meta menu-select-card__desc">Ice-cold and ready to grab.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:660ms"
+            data-menu-target="menu-water"
+          >
+            <span class="menu-select-card__count">1 Item</span>
+            <h3 class="card__title menu-select-card__title">Water</h3>
+            <p class="card__meta menu-select-card__desc">Chilled bottled water.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="card menu-select-card reveal"
+            style="transition-delay:720ms"
+            data-menu-target="menu-deals"
+          >
+            <span class="menu-select-card__count">8 Items</span>
+            <h3 class="card__title menu-select-card__title">Deals</h3>
+            <p class="card__meta menu-select-card__desc">Every MDEE'S combo, all in one place.</p>
+            <span class="menu-select-card__cta">
+              View Items
+              <span class="menu-select-card__arrow" aria-hidden="true">→</span>
+            </span>
+          </button>
+          </div>
+        </div>
+
+        <div class="menu-detail" id="menuDetail" hidden>
+          <button type="button" class="menu-detail__back" id="menuBackBtn">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            Back to Menu
+          </button>
+
+        <div class="menu-categories">
+          <div class="menu-category" id="menu-regular-pizza" data-menu-section>
+            <h3 class="menu-category__title">Regular Pizza</h3>
+            <p class="menu-category__desc">Classic hand-stretched pizzas loaded with bold, everyday flavor.</p>
+            <div class="menu-item-grid">
+              <article class="card menu-item reveal" style="transition-delay:0ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Chicken Tikka</h4>
+                <p class="menu-item__desc">Special creamy sauce, chicken tikka, onion &amp; cheese.</p>
+                <div class="menu-item__sizes">
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Small</span>
+                    <span class="menu-item__size-price">Rs. 550</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Chicken Tikka Pizza, Small size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Medium</span>
+                    <span class="menu-item__size-price">Rs. 1,150</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Chicken Tikka Pizza, Medium size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Large</span>
+                    <span class="menu-item__size-price">Rs. 1,620</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Chicken Tikka Pizza, Large size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item reveal" style="transition-delay:80ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Chicken Fajita</h4>
+                <p class="menu-item__desc">Red sauce, chicken, onion, capsicum &amp; cheese.</p>
+                <div class="menu-item__sizes">
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Small</span>
+                    <span class="menu-item__size-price">Rs. 550</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Chicken Fajita Pizza, Small size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Medium</span>
+                    <span class="menu-item__size-price">Rs. 1,150</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Chicken Fajita Pizza, Medium size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Large</span>
+                    <span class="menu-item__size-price">Rs. 1,620</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Chicken Fajita Pizza, Large size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item reveal" style="transition-delay:160ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Peri Peri</h4>
+                <p class="menu-item__desc">Special peri peri sauce, chicken, onion, capsicum &amp; cheese.</p>
+                <div class="menu-item__sizes">
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Small</span>
+                    <span class="menu-item__size-price">Rs. 550</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Peri Peri Pizza, Small size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Medium</span>
+                    <span class="menu-item__size-price">Rs. 1,150</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Peri Peri Pizza, Medium size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Large</span>
+                    <span class="menu-item__size-price">Rs. 1,620</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Peri Peri Pizza, Large size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+
+          <div class="menu-category" id="menu-signature-pizza" data-menu-section>
+            <h3 class="menu-category__title">Signature Pizza</h3>
+            <p class="menu-category__desc">MDEE'S originals — bolder toppings, richer sauces, made to stand out.</p>
+            <div class="menu-item-grid">
+              <article class="card menu-item reveal" style="transition-delay:0ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Chicken Special</h4>
+                <p class="menu-item__desc">Special creamy sauce, chicken, onion, capsicum, black olives &amp; cheese.</p>
+                <div class="menu-item__sizes">
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Small</span>
+                    <span class="menu-item__size-price">Rs. 610</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Chicken Special Pizza, Small size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Medium</span>
+                    <span class="menu-item__size-price">Rs. 1,250</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Chicken Special Pizza, Medium size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Large</span>
+                    <span class="menu-item__size-price">Rs. 1,850</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Chicken Special Pizza, Large size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item reveal" style="transition-delay:80ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Chicken Supreme</h4>
+                <p class="menu-item__desc">Special creamy sauce, chicken, onion, capsicum, black olives &amp; cheese.</p>
+                <div class="menu-item__sizes">
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Small</span>
+                    <span class="menu-item__size-price">Rs. 610</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Chicken Supreme Pizza, Small size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Medium</span>
+                    <span class="menu-item__size-price">Rs. 1,250</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Chicken Supreme Pizza, Medium size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Large</span>
+                    <span class="menu-item__size-price">Rs. 1,850</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Chicken Supreme Pizza, Large size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item reveal" style="transition-delay:160ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Malai Boti</h4>
+                <p class="menu-item__desc">Special creamy sauce, tomato, chicken malai boti &amp; cheese.</p>
+                <div class="menu-item__sizes">
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Small</span>
+                    <span class="menu-item__size-price">Rs. 650</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Malai Boti Pizza, Small size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Medium</span>
+                    <span class="menu-item__size-price">Rs. 1,250</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Malai Boti Pizza, Medium size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Large</span>
+                    <span class="menu-item__size-price">Rs. 1,690</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Malai Boti Pizza, Large size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item reveal" style="transition-delay:240ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Behari</h4>
+                <p class="menu-item__desc">Behari creamy sauce, chicken, capsicum, onion, black olive, kabab, ginger, lemon &amp; cheese.</p>
+                <div class="menu-item__sizes">
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Small</span>
+                    <span class="menu-item__size-price">Rs. 680</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Behari Pizza, Small size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Medium</span>
+                    <span class="menu-item__size-price">Rs. 1,450</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Behari Pizza, Medium size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Large</span>
+                    <span class="menu-item__size-price">Rs. 1,980</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Behari Pizza, Large size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+
+          <div class="menu-category" id="menu-stuffed-pizza" data-menu-section>
+            <h3 class="menu-category__title">Stuffed Pizza</h3>
+            <p class="menu-category__desc">Cheese-packed crusts stuffed edge to edge for extra indulgence.</p>
+            <div class="menu-item-grid">
+              <article class="card menu-item reveal" style="transition-delay:0ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Cheese Stuffer</h4>
+                <p class="menu-item__desc">Special creamy sauce, chicken, medium cheese, olive, capsicum, onion, chicken &amp; cheese mix stuffing.</p>
+                <div class="menu-item__sizes">
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Small</span>
+                    <span class="menu-item__size-price">Rs. 740</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Cheese Stuffer Pizza, Small size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Medium</span>
+                    <span class="menu-item__size-price">Rs. 1,540</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Cheese Stuffer Pizza, Medium size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Large</span>
+                    <span class="menu-item__size-price">Rs. 2,220</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Cheese Stuffer Pizza, Large size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item reveal" style="transition-delay:80ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Kabab Stuffer</h4>
+                <p class="menu-item__desc">Special creamy sauce, chicken, cheese, olive, capsicum &amp; kabab stuffing.</p>
+                <div class="menu-item__sizes">
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Small</span>
+                    <span class="menu-item__size-price">Rs. 740</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Kabab Stuffer Pizza, Small size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Medium</span>
+                    <span class="menu-item__size-price">Rs. 1,540</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Kabab Stuffer Pizza, Medium size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Large</span>
+                    <span class="menu-item__size-price">Rs. 2,220</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Kabab Stuffer Pizza, Large size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item reveal" style="transition-delay:160ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Crown Crust</h4>
+                <p class="menu-item__desc">Special creamy sauce, chicken, onion, capsicum, pasta &amp; cheese.</p>
+                <div class="menu-item__sizes">
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Small</span>
+                    <span class="menu-item__size-price">Rs. 740</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Crown Crust Pizza, Small size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Medium</span>
+                    <span class="menu-item__size-price">Rs. 1,280</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Crown Crust Pizza, Medium size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Large</span>
+                    <span class="menu-item__size-price">Rs. 1,780</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Crown Crust Pizza, Large size to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+
+          <div class="menu-category" id="menu-burgers" data-menu-section>
+            <h3 class="menu-category__title">Burgers</h3>
+            <p class="menu-category__desc">Flame-grilled patties, stacked high and served fast.</p>
+            <div class="menu-item-grid">
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:0ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Pizzurger</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 650</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Pizzurger (Rs. 650) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:60ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Zinger Burger</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 450</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Zinger Burger (Rs. 450) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:120ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Chicken Patty Burger</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 330</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Chicken Patty Burger (Rs. 330) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:180ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Chapli Burger</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 330</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Chapli Burger (Rs. 330) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:240ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Tower Burger</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 650</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Tower Burger (Rs. 650) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:300ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Grill Burger</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 650</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Grill Burger (Rs. 650) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+
+          <div class="menu-category" id="menu-shawarma" data-menu-section>
+            <h3 class="menu-category__title">Shawarma</h3>
+            <p class="menu-category__desc">Tender marinated chicken, wrapped tight and packed with flavor.</p>
+            <div class="menu-item-grid">
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:0ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Zinger Shawarma</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 380</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Zinger Shawarma (Rs. 380) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:60ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Malai Boti Shawarma</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 320</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Malai Boti Shawarma (Rs. 320) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:120ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Chicken Shawarma</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 300</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Chicken Shawarma (Rs. 300) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:180ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Platter Shawarma</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 550</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Platter Shawarma (Rs. 550) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+
+          <div class="menu-category" id="menu-sandwiches" data-menu-section>
+            <h3 class="menu-category__title">Sandwiches</h3>
+            <p class="menu-category__desc">Quick, hand-held bites loaded with cheese and chicken.</p>
+            <div class="menu-item-grid">
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:0ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Spin Roll</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 650</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Spin Roll (Rs. 650) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:60ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Pizza Sandwich</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 740</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Pizza Sandwich (Rs. 740) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:120ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Chicken Cheese Sticks</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 650</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Chicken Cheese Sticks (Rs. 650) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+
+          <div class="menu-category" id="menu-pasta" data-menu-section>
+            <h3 class="menu-category__title">Pasta</h3>
+            <p class="menu-category__desc">Creamy, cheesy pasta made fresh for every craving.</p>
+            <div class="menu-item-grid">
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:0ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Creamy Pasta</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 700</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Creamy Pasta (Rs. 700) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:60ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Flaming Pasta</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 700</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Flaming Pasta (Rs. 700) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:120ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Malai Boti Pasta</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 780</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Malai Boti Pasta (Rs. 780) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:180ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Italian Pasta</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 780</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Italian Pasta (Rs. 780) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+
+          <div class="menu-category" id="menu-fried-chicken" data-menu-section>
+            <h3 class="menu-category__title">Fried Chicken</h3>
+            <p class="menu-category__desc">Crispy, golden, and made to order.</p>
+            <div class="menu-item-grid">
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:0ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Hot Wings (10 pcs)</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 700</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Hot Wings (10 pcs) (Rs. 700) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:60ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Nuggets (10 pcs)</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 580</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Nuggets (10 pcs) (Rs. 580) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:120ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Chicken Strips (6 pcs)</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 650</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Chicken Strips (6 pcs) (Rs. 650) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+
+          <div class="menu-category" id="menu-fries" data-menu-section>
+            <h3 class="menu-category__title">Fries</h3>
+            <p class="menu-category__desc">Crispy sides to round out any order.</p>
+            <div class="menu-item-grid">
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:0ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Loaded Fries</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 750</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Loaded Fries (Rs. 750) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:60ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Cheesy Mayo Fries</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 640</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Cheesy Mayo Fries (Rs. 640) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:120ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Simple Fries (Regular)</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 460</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Simple Fries (Regular) (Rs. 460) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:180ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Simple Fries (Small)</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 290</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Simple Fries (Small) (Rs. 290) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+
+          <div class="menu-category" id="menu-oven-baked" data-menu-section>
+            <h3 class="menu-category__title">Oven Baked</h3>
+            <p class="menu-category__desc">Crispy, saucy, and fired up — the ultimate finger food.</p>
+            <div class="menu-item-grid">
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:0ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Flaming Wings (10 pcs)</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 650</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Flaming Wings (10 pcs) (Rs. 650) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+              <article class="card menu-item menu-item--simple reveal" style="transition-delay:60ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Peri Peri Wings (10 pcs)</h4>
+                
+                <div class="menu-item__footer">
+                  <span class="menu-item__price">Rs. 650</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm menu-item__order-btn"
+                    aria-label="Add Peri Peri Wings (10 pcs) (Rs. 650) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+
+          <div class="menu-category" id="menu-cold-drinks" data-menu-section>
+            <h3 class="menu-category__title">Cold Drinks</h3>
+            <p class="menu-category__desc">Ice-cold and ready to grab.</p>
+            <div class="menu-item-grid">
+              <article class="card menu-item reveal" style="transition-delay:0ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Cold Drinks</h4>
+                <div class="menu-item__sizes">
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">0.5L</span>
+                    <span class="menu-item__size-price">Rs. 120</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Cold Drinks, 0.5L to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">1L</span>
+                    <span class="menu-item__size-price">Rs. 170</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Cold Drinks, 1L to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">1.5L</span>
+                    <span class="menu-item__size-price">Rs. 220</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Cold Drinks, 1.5L to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">Tin Pack</span>
+                    <span class="menu-item__size-price">Rs. 120</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Cold Drinks, Tin Pack to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+
+          <div class="menu-category" id="menu-water" data-menu-section>
+            <h3 class="menu-category__title">Water</h3>
+            <p class="menu-category__desc">Chilled bottled water.</p>
+            <div class="menu-item-grid">
+              <article class="card menu-item reveal" style="transition-delay:0ms">
+              <div class="card__body menu-item__body">
+                <h4 class="menu-item__title">Water</h4>
+                <div class="menu-item__sizes">
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">0.5L</span>
+                    <span class="menu-item__size-price">Rs. 60</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Water, 0.5L to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                  <div class="menu-item__size-row">
+                    <span class="menu-item__size-label">1.5L</span>
+                    <span class="menu-item__size-price">Rs. 100</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline btn-icon menu-item__order"
+                      aria-label="Add Water, 1.5L to cart"
+                    >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21 7.5H6"/></svg>
+                </button>
+              </div>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+
+          <div class="menu-category" id="menu-deals" data-menu-section>
+            <h3 class="menu-category__title">Deals</h3>
+            <p class="menu-category__desc">Every MDEE'S combo, all in one place.</p>
+            <div class="menu-deals-grid">
+            <article class="card deal-card reveal" style="transition-delay:0ms">
+              <div class="card__body deal-card__body menu-deal-card__body">
+                <span class="badge badge-hot">Hot Deal</span>
+                <h4 class="card__title menu-deal-card__title">Hot Deal 1</h4>
+                <p class="card__meta deal-card__desc">1x Zinger Burger + Fries + 0.5L Drink</p>
+                <div class="deal-card__footer">
+                  <span class="deal-card__price">Rs. 660</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    aria-label="Add Hot Deal 1 (Rs. 660) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            <article class="card deal-card reveal" style="transition-delay:80ms">
+              <div class="card__body deal-card__body menu-deal-card__body">
+                <span class="badge badge-hot">Hot Deal</span>
+                <h4 class="card__title menu-deal-card__title">Hot Deal 2</h4>
+                <p class="card__meta deal-card__desc">1x Regular Pizza (S) + 2x Chicken Burger + 5x Hot Wings + 0.5L Drink</p>
+                <div class="deal-card__footer">
+                  <span class="deal-card__price">Rs. 1,230</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    aria-label="Add Hot Deal 2 (Rs. 1,230) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            <article class="card deal-card reveal" style="transition-delay:160ms">
+              <div class="card__body deal-card__body menu-deal-card__body">
+                <span class="badge badge-bestseller">Super Deal</span>
+                <h4 class="card__title menu-deal-card__title">Super Deal 1</h4>
+                <p class="card__meta deal-card__desc">1x Regular Pizza (L) + 1x Regular Pizza (M) + 1.5L Drinks</p>
+                <div class="deal-card__footer">
+                  <span class="deal-card__price">Rs. 2,750</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    aria-label="Add Super Deal 1 (Rs. 2,750) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            <article class="card deal-card reveal" style="transition-delay:240ms">
+              <div class="card__body deal-card__body menu-deal-card__body">
+                <span class="badge badge-bestseller">Super Deal</span>
+                <h4 class="card__title menu-deal-card__title">Super Deal 2</h4>
+                <p class="card__meta deal-card__desc">1x Regular Pizza (M) + 1x Hot Wings + 1x Flaming Pasta + 1x Potatoes + 1.5L Drink</p>
+                <div class="deal-card__footer">
+                  <span class="deal-card__price">Rs. 2,880</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    aria-label="Add Super Deal 2 (Rs. 2,880) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            <article class="card deal-card reveal" style="transition-delay:320ms">
+              <div class="card__body deal-card__body menu-deal-card__body">
+                <span class="badge badge-bestseller">Family Deal</span>
+                <h4 class="card__title menu-deal-card__title">Family Deal 1</h4>
+                <p class="card__meta deal-card__desc">1x Regular Pizza (L) + 2x Zinger Burgers + 2x Chicken Burgers + 1.5L Drink</p>
+                <div class="deal-card__footer">
+                  <span class="deal-card__price">Rs. 3,020</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    aria-label="Add Family Deal 1 (Rs. 3,020) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            <article class="card deal-card reveal" style="transition-delay:400ms">
+              <div class="card__body deal-card__body menu-deal-card__body">
+                <span class="badge badge-bestseller">Family Deal</span>
+                <h4 class="card__title menu-deal-card__title">Family Deal 2</h4>
+                <p class="card__meta deal-card__desc">2x Regular Pizza (M) + 1x Creamy Pasta + 10x Nuggets + 10x Hot Wings + 2x 1.5L Drinks</p>
+                <div class="deal-card__footer">
+                  <span class="deal-card__price">Rs. 5,737</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    aria-label="Add Family Deal 2 (Rs. 5,737) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            <article class="card deal-card reveal" style="transition-delay:480ms">
+              <div class="card__body deal-card__body menu-deal-card__body">
+                <span class="badge badge-limited">Birthday Deal</span>
+                <h4 class="card__title menu-deal-card__title">Birthday Deal 1</h4>
+                <p class="card__meta deal-card__desc">1x Regular Pizza (L) + 1x Regular Pizza (M) + 15x Hot Wings + 2x 1.5L Drinks</p>
+                <div class="deal-card__footer">
+                  <span class="deal-card__price">Rs. 3,920</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    aria-label="Add Birthday Deal 1 (Rs. 3,920) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            <article class="card deal-card reveal" style="transition-delay:560ms">
+              <div class="card__body deal-card__body menu-deal-card__body">
+                <span class="badge badge-limited">Birthday Deal</span>
+                <h4 class="card__title menu-deal-card__title">Birthday Deal 2</h4>
+                <p class="card__meta deal-card__desc">3x Regular Pizza (L) + 30x Hot Wings + 3x 1.5L Drinks</p>
+                <div class="deal-card__footer">
+                  <span class="deal-card__price">Rs. 6,950</span>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    aria-label="Add Birthday Deal 2 (Rs. 6,950) to cart"
+                  >Add to Cart</button>
+                </div>
+              </div>
+            </article>
+            </div>
+          </div>
+        </div>
+        </div>
+
       </div>
     </section>
     <section id="deals" class="section deals">
@@ -739,6 +2042,37 @@
       </svg>
     </button>
   </footer>
+
+  <div class="cart-overlay" id="cartOverlay" hidden></div>
+
+  <aside class="cart-panel" id="cartPanel" aria-label="Shopping cart" aria-hidden="true">
+    <div class="cart-panel__header">
+      <h2 class="cart-panel__title">Your Cart</h2>
+      <button type="button" class="cart-panel__close" id="cartCloseBtn" aria-label="Close cart">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+
+    <div class="cart-panel__body" id="cartBody"></div>
+
+    <div class="cart-panel__summary" id="cartSummary" hidden>
+      <div class="cart-summary__row">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">Rs. 0</span>
+      </div>
+      <div class="cart-summary__row cart-summary__row--muted">
+        <span>Delivery</span>
+        <span>Calculated by restaurant</span>
+      </div>
+      <div class="cart-summary__row cart-summary__row--total">
+        <span>Total</span>
+        <span id="cartTotal">Rs. 0</span>
+      </div>
+      <button type="button" class="btn btn-primary btn-lg cart-checkout-btn" id="cartCheckoutBtn">Continue to WhatsApp</button>
+    </div>
+  </aside>
+
+  <div class="cart-toast" id="cartToast" role="status" aria-live="polite"></div>
 
   <script src="script.js" defer></script>
 </body>
