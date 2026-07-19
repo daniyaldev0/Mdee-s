@@ -1,21 +1,25 @@
 {
-  "name": "MDEE'S - Say Yes to Pizza",
+  "name": "MDEE'S — Say Yes to Pizza",
   "short_name": "MDEE'S",
-  "description": "Premium fast food in Lahore — pizza, burgers, shawarma and more, made fresh to order.",
+  "description": "Pizza, burgers, shawarma and flaming wings made fresh to order in Lahore.",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
-  "theme_color": "#F58220",
   "background_color": "#FFFFFF",
+  "theme_color": "#0072BC",
   "icons": [
     {
-      "src": "assets/android-chrome-192x192.png",
-      "sizes": "192x192",
+      "src": "assets/favicon-32x32.png",
+      "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "assets/android-chrome-512x512.png",
-      "sizes": "512x512",
+      "src": "assets/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/apple-touch-icon.png",
+      "sizes": "180x180",
       "type": "image/png"
     }
   ]

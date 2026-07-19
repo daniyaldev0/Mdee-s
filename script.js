@@ -36,6 +36,35 @@ const debounce = (fn, delay = 200) => {
 };
 
 /* ==========================================================================
+   FOCUS TRAP (shared by the cart panel and Quick View modal)
+   ========================================================================== */
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+// Keeps Tab/Shift+Tab cycling inside `container` while it's open, instead of
+// leaking focus out to the page underneath. Call from a keydown listener
+// that's already scoped to "only while this panel is open".
+const trapFocus = (container, event) => {
+  if (event.key !== 'Tab') return;
+
+  const focusable = qsa(FOCUSABLE_SELECTOR, container).filter(
+    (el) => el.offsetWidth || el.offsetHeight || el.getClientRects().length
+  );
+  if (!focusable.length) return;
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+};
+
+/* ==========================================================================
    SCROLL HELPER
    ========================================================================== */
 const onScroll = (fn, limit = 100) => {
@@ -282,6 +311,165 @@ const initInteractiveMenu = () => {
 };
 
 /* ==========================================================================
+   MENU SEARCH & SMART FILTERING (v1.8)
+   ========================================================================== */
+const escapeHtml = (text = '') =>
+  text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+const escapeRegExp = (text = '') => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const initMenuSearch = () => {
+  const input = qs('#menuSearchInput');
+  const clearBtn = qs('#menuSearchClear');
+  const searchBar = qs('#menuSearch');
+  const selectView = qs('#menuSelect');
+  const detailView = qs('#menuDetail');
+  const noResultsEl = qs('#menuNoResults');
+  if (!input || !clearBtn || !searchBar || !selectView || !detailView) return;
+
+  // Snapshot which view (category grid, or a specific open category) was
+  // showing before a search started, so clearing the search can restore it
+  // without disturbing scroll position or the user's prior browsing state.
+  let preSearchView = null; // { grid: true } | { categoryId: string }
+  let isSearching = false;
+
+  // Build the search index once. Every menu item and deal card in the
+  // Interactive Menu is indexed by name, category, and description — the
+  // underlying DOM nodes are reused (never cloned/recreated) so existing
+  // Add to Cart / Quick View wiring keeps working untouched.
+  const sections = qsa('[data-menu-section]', detailView);
+  const index = sections.map((section) => {
+    const categoryName = qs('.menu-category__title', section)?.textContent.trim() || '';
+    const items = qsa('.menu-item, .deal-card', section).map((article) => {
+      const titleEl = qs('.menu-item__title, .menu-deal-card__title', article);
+      const descEl = qs('.menu-item__desc, .deal-card__desc', article);
+      const name = titleEl?.textContent.trim() || '';
+      const desc = descEl?.textContent.trim() || '';
+      return {
+        article,
+        titleEl,
+        name,
+        haystack: `${name} ${categoryName} ${desc}`.toLowerCase(),
+      };
+    });
+    return { section, categoryName, items };
+  });
+
+  const clearHighlight = () => {
+    index.forEach(({ items }) => {
+      items.forEach(({ titleEl, name }) => {
+        if (titleEl) titleEl.textContent = name;
+      });
+    });
+  };
+
+  const applyHighlight = (item, query) => {
+    if (!item.titleEl) return;
+    if (!query || !item.name.toLowerCase().includes(query)) {
+      item.titleEl.textContent = item.name;
+      return;
+    }
+    const re = new RegExp(`(${escapeRegExp(query)})`, 'ig');
+    item.titleEl.innerHTML = escapeHtml(item.name).replace(re, '<mark class="menu-search__mark">$1</mark>');
+  };
+
+  const enterSearchMode = () => {
+    if (isSearching) return;
+    isSearching = true;
+    preSearchView = detailView.hidden
+      ? { grid: true }
+      : { categoryId: sections.find((s) => s.classList.contains('is-active'))?.id || null };
+
+    selectView.hidden = true;
+    detailView.hidden = false;
+    detailView.classList.add('is-search-active');
+  };
+
+  const exitSearchMode = () => {
+    if (!isSearching) return;
+    isSearching = false;
+
+    detailView.classList.remove('is-search-active');
+    index.forEach(({ section, items }) => {
+      section.classList.remove('is-search-match');
+      items.forEach(({ article }) => article.classList.remove('is-search-hidden'));
+    });
+    clearHighlight();
+    if (noResultsEl) noResultsEl.hidden = true;
+
+    if (preSearchView && preSearchView.categoryId) {
+      // A specific category was open before searching — nothing else to do,
+      // its .is-active class was never touched.
+      detailView.hidden = false;
+      selectView.hidden = true;
+    } else {
+      detailView.hidden = true;
+      selectView.hidden = false;
+    }
+    preSearchView = null;
+  };
+
+  const runSearch = (rawQuery) => {
+    const query = rawQuery.trim().toLowerCase();
+
+    if (!query) {
+      exitSearchMode();
+      return;
+    }
+
+    enterSearchMode();
+
+    let anyMatch = false;
+    index.forEach(({ section, items }) => {
+      let sectionHasMatch = false;
+      items.forEach((item) => {
+        const isMatch = item.haystack.includes(query);
+        item.article.classList.toggle('is-search-hidden', !isMatch);
+        applyHighlight(item, isMatch ? query : '');
+        if (isMatch) sectionHasMatch = true;
+      });
+      section.classList.toggle('is-search-match', sectionHasMatch);
+      if (sectionHasMatch) anyMatch = true;
+    });
+
+    if (noResultsEl) noResultsEl.hidden = anyMatch;
+  };
+
+  const handleInput = debounce(() => {
+    clearBtn.hidden = input.value.length === 0;
+    runSearch(input.value);
+  }, 120);
+
+  const clearSearch = () => {
+    input.value = '';
+    clearBtn.hidden = true;
+    runSearch('');
+  };
+
+  input.addEventListener('input', handleInput);
+  clearBtn.addEventListener('click', () => {
+    clearSearch();
+    input.focus();
+  });
+
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && input.value) {
+      event.preventDefault();
+      clearSearch();
+    }
+  });
+
+  // Ctrl+K / Cmd+K focuses the search field from anywhere on desktop.
+  document.addEventListener('keydown', (event) => {
+    const isShortcut = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k';
+    if (!isShortcut) return;
+    event.preventDefault();
+    input.focus();
+    input.select();
+  });
+};
+
+/* ==========================================================================
    WHATSAPP SMART ORDERING
    ========================================================================== */
 const WHATSAPP_NUMBER = '923283470000';
@@ -365,12 +553,12 @@ const calculateTotal = () => cartItems.reduce((sum, item) => sum + item.unitPric
 /* ==========================================================================
    SHOPPING CART — MUTATIONS
    ========================================================================== */
-const addToCart = ({ id, name, category, size, unitPrice }) => {
+const addToCart = ({ id, name, category, size, unitPrice, qty = 1 }) => {
   const existing = findCartItem(id);
   if (existing) {
-    existing.qty += 1;
+    existing.qty += qty;
   } else {
-    cartItems.push({ id, name, category, size, unitPrice, qty: 1 });
+    cartItems.push({ id, name, category, size, unitPrice, qty });
   }
   saveCart();
   renderCart();
@@ -470,48 +658,44 @@ const updateCartBadge = () => {
 };
 
 /* ==========================================================================
-   SHOPPING CART — ADD-TO-CART BUTTON FEEDBACK
-   ========================================================================== */
-const CHECK_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>';
-
-const showAddedFeedback = (button, { iconOnly = false } = {}) => {
-  if (button.dataset.feedbackActive) return;
-  button.dataset.feedbackActive = 'true';
-
-  const originalContent = button.innerHTML;
-  button.classList.add('is-added');
-  button.innerHTML = iconOnly ? CHECK_ICON : 'Added ✓';
-
-  setTimeout(() => {
-    button.innerHTML = originalContent;
-    button.classList.remove('is-added');
-    delete button.dataset.feedbackActive;
-  }, 900);
-};
-
-/* ==========================================================================
    SHOPPING CART — WIRING PRODUCT CARDS (menu + deals)
    ========================================================================== */
 const initMenuCartActions = () => {
   document.addEventListener('click', (event) => {
-    // Sized items: pizzas, cold drinks, water — each size row already has
-    // its own dedicated order button, so clicking it both selects the size
-    // and adds that exact size to the cart.
+    // Sized items: pizzas, cold drinks, water — each size row has its own
+    // order button. Clicking any of them opens Quick View for the whole
+    // product with all its sizes on offer, pre-selecting the size that was
+    // actually clicked.
     const sizedBtn = event.target.closest('.menu-item__order');
     if (sizedBtn) {
       const article = sizedBtn.closest('.menu-item');
-      const row = sizedBtn.closest('.menu-item__size-row');
+      const clickedRow = sizedBtn.closest('.menu-item__size-row');
       const section = sizedBtn.closest('[data-menu-section]');
-      if (!article || !row || !section) return;
+      if (!article || !clickedRow || !section) return;
 
       const name = qs('.menu-item__title', article)?.textContent.trim() || 'Item';
-      const size = qs('.menu-item__size-label', row)?.textContent.trim() || '';
-      const unitPrice = parsePrice(qs('.menu-item__size-price', row)?.textContent);
+      const desc = qs('.menu-item__desc', article)?.textContent.trim() || '';
       const category = qs('.menu-category__title', section)?.textContent.trim() || '';
-      const id = slugify(`${section.id}-${name}-${size}`);
+      const clickedSize = qs('.menu-item__size-label', clickedRow)?.textContent.trim() || '';
 
-      addToCart({ id, name, category, size, unitPrice });
-      showAddedFeedback(sizedBtn, { iconOnly: true });
+      const sizes = qsa('.menu-item__size-row', article).map((row) => {
+        const label = qs('.menu-item__size-label', row)?.textContent.trim() || '';
+        return {
+          label,
+          unitPrice: parsePrice(qs('.menu-item__size-price', row)?.textContent),
+          id: slugify(`${section.id}-${name}-${label}`),
+        };
+      });
+
+      openQuickView({
+        type: 'sized',
+        name,
+        desc,
+        category,
+        sizes,
+        selectedLabel: clickedSize,
+        triggerEl: sizedBtn,
+      });
       return;
     }
 
@@ -523,12 +707,12 @@ const initMenuCartActions = () => {
       if (!article || !section) return;
 
       const name = qs('.menu-item__title', article)?.textContent.trim() || 'Item';
+      const desc = qs('.menu-item__desc', article)?.textContent.trim() || '';
       const unitPrice = parsePrice(qs('.menu-item__price', article)?.textContent);
       const category = qs('.menu-category__title', section)?.textContent.trim() || '';
       const id = slugify(`${section.id}-${name}`);
 
-      addToCart({ id, name, category, size: null, unitPrice });
-      showAddedFeedback(simpleBtn);
+      openQuickView({ type: 'simple', id, name, desc, category, unitPrice, triggerEl: simpleBtn });
       return;
     }
 
@@ -542,12 +726,192 @@ const initMenuCartActions = () => {
       if (!article || !section) return;
 
       const name = qs('.menu-deal-card__title', article)?.textContent.trim() || 'Deal';
+      const desc = qs('.deal-card__desc', article)?.textContent.trim() || '';
       const unitPrice = parsePrice(qs('.deal-card__price', article)?.textContent);
       const category = qs('.menu-category__title', section)?.textContent.trim() || '';
       const id = slugify(`${section.id}-${name}`);
 
-      addToCart({ id, name, category, size: null, unitPrice });
-      showAddedFeedback(dealBtn);
+      openQuickView({ type: 'simple', id, name, desc, category, unitPrice, triggerEl: dealBtn });
+    }
+  });
+};
+
+/* ==========================================================================
+   PRODUCT QUICK VIEW — STATE
+   ========================================================================== */
+let qvProduct = null; // currently open product config (see openQuickView)
+let qvSelectedSizeIndex = null;
+let qvQty = 1;
+let qvTriggerEl = null;
+
+// Looked up once (script.js runs with `defer`, so the DOM is already parsed)
+// instead of re-querying the same elements on every render/open/close call.
+const qvEls = {
+  overlay: qs('#quickViewOverlay'),
+  panel: qs('#quickViewPanel'),
+  closeBtn: qs('#quickViewCloseBtn'),
+  category: qs('#qvCategory'),
+  title: qs('#qvTitle'),
+  desc: qs('#qvDesc'),
+  sizesWrap: qs('#qvSizes'),
+  sizeOptions: qs('#qvSizeOptions'),
+  sizeHint: qs('#qvSizeHint'),
+  qty: qs('#qvQty'),
+  subtotal: qs('#qvSubtotal'),
+  addBtn: qs('#qvAddBtn'),
+};
+
+const qvUnitPrice = () => {
+  if (!qvProduct) return 0;
+  if (qvProduct.type === 'sized') {
+    return qvSelectedSizeIndex === null ? 0 : qvProduct.sizes[qvSelectedSizeIndex].unitPrice;
+  }
+  return qvProduct.unitPrice;
+};
+
+const qvIsReady = () => qvProduct && (qvProduct.type === 'simple' || qvSelectedSizeIndex !== null);
+
+/* ==========================================================================
+   PRODUCT QUICK VIEW — RENDER
+   ========================================================================== */
+const renderQuickView = () => {
+  if (!qvProduct) return;
+
+  qvEls.category.textContent = qvProduct.category || '';
+  qvEls.category.hidden = !qvProduct.category;
+  qvEls.title.textContent = qvProduct.name;
+
+  qvEls.desc.textContent = qvProduct.desc || '';
+  qvEls.desc.hidden = !qvProduct.desc;
+
+  if (qvProduct.type === 'sized') {
+    qvEls.sizesWrap.hidden = false;
+    qvEls.sizeOptions.innerHTML = qvProduct.sizes
+      .map((size, index) => `
+        <button
+          type="button"
+          class="quickview-size-btn${index === qvSelectedSizeIndex ? ' is-selected' : ''}"
+          data-size-index="${index}"
+          aria-pressed="${index === qvSelectedSizeIndex}"
+        >
+          ${size.label}
+          <span class="quickview-size-btn__price">${formatPrice(size.unitPrice)}</span>
+        </button>
+      `)
+      .join('');
+    qvEls.sizeHint.hidden = qvSelectedSizeIndex !== null;
+  } else {
+    qvEls.sizesWrap.hidden = true;
+  }
+
+  qvEls.qty.textContent = qvQty;
+  qvEls.subtotal.textContent = formatPrice(qvUnitPrice() * qvQty);
+  qvEls.addBtn.disabled = !qvIsReady();
+};
+
+/* ==========================================================================
+   PRODUCT QUICK VIEW — OPEN/CLOSE
+   ========================================================================== */
+const quickViewIsOpen = () => qvEls.panel?.classList.contains('is-open') || false;
+
+const openQuickView = (product) => {
+  const { overlay, panel, closeBtn } = qvEls;
+  if (!overlay || !panel || !closeBtn) return;
+
+  qvProduct = product;
+  qvTriggerEl = product.triggerEl || null;
+  qvQty = 1;
+  qvSelectedSizeIndex =
+    product.type === 'sized'
+      ? Math.max(0, product.sizes.findIndex((size) => size.label === product.selectedLabel))
+      : null;
+
+  renderQuickView();
+
+  overlay.hidden = false;
+  void overlay.offsetWidth;
+  panel.classList.add('is-open');
+  overlay.classList.add('is-visible');
+  panel.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('no-scroll');
+  closeBtn.focus({ preventScroll: true });
+};
+
+const closeQuickView = () => {
+  const { overlay, panel } = qvEls;
+  if (!overlay || !panel) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  panel.classList.remove('is-open');
+  overlay.classList.remove('is-visible');
+  panel.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('no-scroll');
+  if (qvTriggerEl) qvTriggerEl.focus({ preventScroll: true });
+  setTimeout(() => { if (!quickViewIsOpen()) overlay.hidden = true; }, prefersReducedMotion ? 0 : 500);
+  qvProduct = null;
+  qvTriggerEl = null;
+};
+
+const initQuickView = () => {
+  const { overlay, panel, closeBtn } = qvEls;
+  if (!overlay || !panel || !closeBtn) return;
+
+  closeBtn.addEventListener('click', closeQuickView);
+  overlay.addEventListener('click', closeQuickView);
+
+  document.addEventListener('keydown', (event) => {
+    if (!quickViewIsOpen()) return;
+    if (event.key === 'Escape') closeQuickView();
+    else trapFocus(panel, event);
+  });
+
+  panel.addEventListener('click', (event) => {
+    const sizeBtn = event.target.closest('.quickview-size-btn');
+    if (sizeBtn) {
+      qvSelectedSizeIndex = Number(sizeBtn.dataset.sizeIndex);
+      renderQuickView();
+      return;
+    }
+
+    if (event.target.closest('#qvQtyIncrease')) {
+      qvQty += 1;
+      renderQuickView();
+      return;
+    }
+
+    if (event.target.closest('#qvQtyDecrease')) {
+      qvQty = Math.max(1, qvQty - 1);
+      renderQuickView();
+      return;
+    }
+
+    if (event.target.closest('#qvAddBtn')) {
+      if (!qvIsReady()) return;
+
+      if (qvProduct.type === 'sized') {
+        const size = qvProduct.sizes[qvSelectedSizeIndex];
+        addToCart({
+          id: size.id,
+          name: qvProduct.name,
+          category: qvProduct.category,
+          size: size.label,
+          unitPrice: size.unitPrice,
+          qty: qvQty,
+        });
+      } else {
+        addToCart({
+          id: qvProduct.id,
+          name: qvProduct.name,
+          category: qvProduct.category,
+          size: null,
+          unitPrice: qvProduct.unitPrice,
+          qty: qvQty,
+        });
+      }
+
+      closeQuickView();
+      showCartToast('Added to cart');
     }
   });
 };
@@ -592,7 +956,9 @@ const initCartPanel = () => {
   overlay.addEventListener('click', closeCart);
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && isOpen()) closeCart();
+    if (!isOpen()) return;
+    if (event.key === 'Escape') closeCart();
+    else trapFocus(panel, event);
   });
 
   panel.addEventListener('click', (event) => {
@@ -709,6 +1075,7 @@ const initCart = () => {
   initMenuCartActions();
   initCartPanel();
   initCartCheckout();
+  initQuickView();
 };
 
 /* ==========================================================================
@@ -721,6 +1088,7 @@ onReady(() => {
   initMobileMenu();
   initActiveNavLink();
   initInteractiveMenu();
+  initMenuSearch();
   initFooterYear();
   initWhatsAppOrdering();
   initCart();
